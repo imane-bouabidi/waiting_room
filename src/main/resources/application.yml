@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/wrm_db
+    username: root
+    password: wora
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
