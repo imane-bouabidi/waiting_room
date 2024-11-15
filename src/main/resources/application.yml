@@ -1,9 +1,18 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/wrm_db
+    url: jdbc:mysql://localhost:3306/wrm
     username: root
     password: wora
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+    waiting-room:
+      default-algorithm-type: FIFO
+      default-work-mode: MORNING
+      default-capacity: 15
+
+    visit:
+      default-visitor-status: WAITING

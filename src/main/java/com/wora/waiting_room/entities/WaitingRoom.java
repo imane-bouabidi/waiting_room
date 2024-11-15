@@ -1,9 +1,18 @@
 package com.wora.waiting_room.entities;
 
+import com.wora.waiting_room.entities.enums.AlgorithmType;
+import com.wora.waiting_room.entities.enums.WorkMode;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
 public class WaitingRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
