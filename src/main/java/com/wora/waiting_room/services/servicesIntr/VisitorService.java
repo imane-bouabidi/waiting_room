@@ -9,9 +9,6 @@ import com.wora.waiting_room.services.GenericService;
 import java.util.List;
 
 public interface VisitorService extends GenericService<VisitorCreateDTO, VisitorUpdateDTO, VisitorDTO, Long> {
-    VisitorDTO save(VisitorCreateDTO createDto);
     VisitorDTO findById(Long id);
-    VisitorDTO update(VisitorUpdateDTO updateDto, Long id);
     List<VisitorDTO> findAll();
-    void delete(Long id);
 }

@@ -16,3 +16,5 @@ spring:
 
     visit:
       default-visitor-status: WAITING
+  profiles:
+    active: dev

@@ -13,6 +13,7 @@ import com.wora.waiting_room.services.servicesIntr.VisitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,5 +58,24 @@ public class VisitServiceImpl implements VisitService {
     public void delete(VisitEmbeddedId id) {
         visitRepository.deleteById(id);
     }
+
+    public List<VisitDTO> getVisitsByFIFO() {
+        List<Visit> visits = visitRepository.findAll();
+        visits.sort(Comparator.comparing(Visit::getArrivalTime));
+        return visits.stream().map(visitMapper::toDto).collect(Collectors.toList());
+    }
+
+    public List<VisitDTO> getVisitsByPriority() {
+        List<Visit> visits = visitRepository.findAll();
+        visits.sort(Comparator.comparing(Visit::getPriority));
+        return visits.stream().map(visitMapper::toDto).collect(Collectors.toList());
+    }
+
+    public List<VisitDTO> getVisitsBySJF() {
+        List<Visit> visits = visitRepository.findAll();
+        visits.sort(Comparator.comparing(Visit::getEstimatedProcessingTime));
+        return visits.stream().map(visitMapper::toDto).collect(Collectors.toList());
+    }
+
 }
 
