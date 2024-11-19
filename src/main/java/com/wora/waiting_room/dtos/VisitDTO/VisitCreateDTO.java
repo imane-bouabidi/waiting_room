@@ -5,14 +5,14 @@ import com.wora.waiting_room.dtos.WaitingRoomDTO.EmbeddedWaitingRoomDTO;
 import com.wora.waiting_room.entities.enums.Status;
 import jakarta.validation.constraints.NotNull;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class VisitCreateDTO {
     @NotNull
     private LocalDateTime arrivalTime;
