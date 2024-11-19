@@ -4,9 +4,13 @@ import com.wora.waiting_room.dtos.WaitingRoomDTO.EmbeddedWaitingRoomDTO;
 import com.wora.waiting_room.entities.embedded.VisitEmbeddedId;
 import com.wora.waiting_room.entities.enums.Status;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class VisitDTO {
     private VisitEmbeddedId id;
     @NotNull

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,7 +29,7 @@ public class Visit {
     private byte priority;
 
     @Min(value = 1, message = "Estimated processing time must be positive")
-    private Integer estimatedProcessingTime;
+    private Duration estimatedProcessingTime;
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
