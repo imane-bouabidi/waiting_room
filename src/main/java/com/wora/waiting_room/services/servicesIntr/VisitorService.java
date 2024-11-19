@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface VisitorService extends GenericService<VisitorCreateDTO, VisitorUpdateDTO, VisitorDTO, Long> {
     VisitorDTO findById(Long id);
-    List<VisitorDTO> findAll();
+    List<VisitorDTO> findAll(int page, int size);
 }

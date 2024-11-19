@@ -8,6 +8,7 @@ import com.wora.waiting_room.mappers.VisitorMapper;
 import com.wora.waiting_room.repositories.VisitorRepo;
 import com.wora.waiting_room.services.servicesIntr.VisitorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,15 +38,16 @@ public class VisitorServiceImpl implements VisitorService {
     public VisitorDTO update(VisitorUpdateDTO updateDto, Long id) {
         Visitor visitor = visitorRepository.findById(id).orElse(null);
         if (visitor != null) {
-            visitorMapper.toEntity(updateDto); // Map updates to the entity
+            visitorMapper.toEntity(updateDto);
             visitor = visitorRepository.save(visitor);
         }
         return visitorMapper.toDto(visitor);
     }
 
     @Override
-    public List<VisitorDTO> findAll() {
-        return visitorRepository.findAll().stream()
+    public List<VisitorDTO> findAll(int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        return visitorRepository.findAll(pageable).stream()
                 .map(visitorMapper::toDto)
                 .collect(Collectors.toList());
     }

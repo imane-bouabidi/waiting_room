@@ -12,7 +12,7 @@ public interface VisitService extends GenericService<VisitCreateDTO, VisitUpdate
     VisitDTO save(VisitCreateDTO createDto);
     VisitDTO findById(VisitEmbeddedId id);
     VisitDTO update(VisitUpdateDTO updateDto, VisitEmbeddedId id);
-    List<VisitDTO> findAll();
+    List<VisitDTO> findAll(int page, int size);
     void delete(VisitEmbeddedId id);
 }
 

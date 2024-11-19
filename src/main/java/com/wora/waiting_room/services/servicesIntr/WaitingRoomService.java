@@ -11,6 +11,6 @@ public interface WaitingRoomService extends GenericService<WaitingRoomCreateDTO,
     WaitingRoomDTO save(WaitingRoomCreateDTO createDto);
     WaitingRoomDTO findById(Long id);
     WaitingRoomDTO update(WaitingRoomUpdateDTO updateDto, Long id);
-    List<WaitingRoomDTO> findAll();
+    List<WaitingRoomDTO> findAll(int page, int size);
     void delete(Long id);
 }

@@ -13,6 +13,7 @@ import com.wora.waiting_room.repositories.VisitRepo;
 import com.wora.waiting_room.repositories.WaitingRoomRepo;
 import com.wora.waiting_room.services.servicesIntr.WaitingRoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -51,8 +52,9 @@ public class WaitingRoomServiceImpl implements WaitingRoomService {
     }
 
     @Override
-    public List<WaitingRoomDTO> findAll() {
-        return waitingRoomRepository.findAll().stream()
+    public List<WaitingRoomDTO> findAll(int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        return waitingRoomRepository.findAll(pageable).stream()
                 .map(waitingRoomMapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -73,7 +75,7 @@ public class WaitingRoomServiceImpl implements WaitingRoomService {
                     .sorted(Comparator.comparing(EmbeddedVisitDTO::getArrivalTime))
                     .collect(Collectors.toList());
             case PRIORITY -> visits.stream()
-                    .sorted((v1, v2) -> Integer.compare(v2.getPriority(), v1.getPriority()))
+                    .sorted((v1, v2) -> Byte.compare(v2.getPriority(), v1.getPriority()))
                     .collect(Collectors.toList());
             case SJF -> visits.stream()
                     .sorted(Comparator.comparing(EmbeddedVisitDTO::getEstimatedProcessingTime))

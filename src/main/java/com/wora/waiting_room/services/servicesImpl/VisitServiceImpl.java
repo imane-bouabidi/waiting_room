@@ -18,8 +18,10 @@ import com.wora.waiting_room.repositories.WaitingRoomRepo;
 import com.wora.waiting_room.services.servicesIntr.VisitService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -122,8 +124,9 @@ public class VisitServiceImpl implements VisitService {
     }
 
     @Override
-    public List<VisitDTO> findAll() {
-        return visitRepository.findAll().stream()
+    public List<VisitDTO> findAll(int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        return visitRepository.findAll(pageable).stream()
                 .map(visitMapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -133,22 +136,21 @@ public class VisitServiceImpl implements VisitService {
         visitRepository.deleteById(id);
     }
 
-    public List<VisitDTO> getVisitsByFIFO() {
-        List<Visit> visits = visitRepository.findAll();
-        visits.sort(Comparator.comparing(Visit::getArrivalTime));
-        return visits.stream().map(visitMapper::toDto).collect(Collectors.toList());
-    }
+    public Duration calculateAverageWaitTime() {
+        List<Visit> visits = visitRepository.findAll().stream()
+                .filter(visit -> visit.getStatus() == Status.FINISHED)
+                .toList();
+        System.out.println(visits);
 
-    public List<VisitDTO> getVisitsByPriority() {
-        List<Visit> visits = visitRepository.findAll();
-        visits.sort(Comparator.comparing(Visit::getPriority));
-        return visits.stream().map(visitMapper::toDto).collect(Collectors.toList());
-    }
+        Duration totalWaitTime = visits.stream()
+                .filter(visit -> visit.getArrivalTime() != null && visit.getStartTime() != null)
+                .map(visit -> Duration.between(
+                        visit.getArrivalTime(),
+                        visit.getStartTime()
+                ))
+                .reduce(Duration.ZERO, Duration::plus);
 
-    public List<VisitDTO> getVisitsBySJF() {
-        List<Visit> visits = visitRepository.findAll();
-        visits.sort(Comparator.comparing(Visit::getEstimatedProcessingTime));
-        return visits.stream().map(visitMapper::toDto).collect(Collectors.toList());
+        return totalWaitTime;
     }
 
 }
