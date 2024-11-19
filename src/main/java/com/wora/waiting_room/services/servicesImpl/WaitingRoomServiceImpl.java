@@ -5,6 +5,7 @@ import com.wora.waiting_room.dtos.WaitingRoomDTO.WaitingRoomCreateDTO;
 import com.wora.waiting_room.dtos.WaitingRoomDTO.WaitingRoomDTO;
 import com.wora.waiting_room.dtos.WaitingRoomDTO.WaitingRoomUpdateDTO;
 import com.wora.waiting_room.entities.WaitingRoom;
+import com.wora.waiting_room.entities.enums.AlgorithmType;
 import com.wora.waiting_room.entities.enums.Status;
 import com.wora.waiting_room.mappers.VisitMapper;
 import com.wora.waiting_room.mappers.WaitingRoomMapper;
@@ -61,20 +62,20 @@ public class WaitingRoomServiceImpl implements WaitingRoomService {
         waitingRoomRepository.deleteById(id);
     }
 
-    public List<EmbeddedVisitDTO> getSortedVisitsByAlgorithm(Long waitingRoomId, String strategy) {
+    public List<EmbeddedVisitDTO> getSortedVisitsByAlgorithm(Long waitingRoomId, AlgorithmType strategy) {
         List<EmbeddedVisitDTO> visits = visitRepo.findByWaitingRoomId(waitingRoomId).stream()
                 .map(visitMapper::toEmbeddedDto)
                 .filter(visit -> visit.getStatus() == Status.WAITING)
                 .toList();
 
-        return switch (strategy.toUpperCase()) {
-            case "FIFO" -> visits.stream()
+        return switch (strategy) {
+            case FIFO -> visits.stream()
                     .sorted(Comparator.comparing(EmbeddedVisitDTO::getArrivalTime))
                     .collect(Collectors.toList());
-            case "PRIORITY" -> visits.stream()
+            case PRIORITY -> visits.stream()
                     .sorted((v1, v2) -> Integer.compare(v2.getPriority(), v1.getPriority()))
                     .collect(Collectors.toList());
-            case "SJF" -> visits.stream()
+            case SJF -> visits.stream()
                     .sorted(Comparator.comparing(EmbeddedVisitDTO::getEstimatedProcessingTime))
                     .collect(Collectors.toList());
             default -> throw new IllegalArgumentException("Invalid sorting strategy: " + strategy);
