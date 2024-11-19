@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import lombok.*;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 @Data
 @Getter
@@ -19,7 +20,7 @@ public class VisitCreateDTO {
     @NotNull
     private Status status;
     private byte priority;
-    private Integer estimatedProcessingTime;
+    private Duration estimatedProcessingTime;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private EmbeddedVisitorDTO embeddedVisitorDTO;

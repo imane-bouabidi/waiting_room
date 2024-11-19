@@ -8,15 +8,16 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
-    waiting-room:
-      default-algorithm-type: FIFO
-      default-work-mode: MORNING
-      default-capacity: 15
-
-    visit:
-      default-visitor-status: WAITING
-      default-priority: 100
-      default-estimatedProcessingTime: 10m
   profiles:
     active: dev
+
+waiting-room:
+  default-algorithm-type: FIFO
+  default-work-mode: MORNING
+  default-capacity: 15
+
+visit:
+  default-visitor-status: WAITING
+  default-priority: 100
+  default-estimated-processing-time: 10m
+

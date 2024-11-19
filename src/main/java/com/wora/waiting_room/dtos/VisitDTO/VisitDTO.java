@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Getter
@@ -22,7 +23,7 @@ public class VisitDTO {
     @NotNull
     private Status status;
     private byte priority;
-    private Integer estimatedProcessingTime;
+    private Duration estimatedProcessingTime;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private EmbeddedVisitDTO embeddedVisitDTO;
