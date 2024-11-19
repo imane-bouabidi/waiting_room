@@ -61,25 +61,24 @@ public class WaitingRoomServiceImpl implements WaitingRoomService {
         waitingRoomRepository.deleteById(id);
     }
 
-    private List<EmbeddedVisitDTO> getSortedVisitsByAlgorithm(List<EmbeddedVisitDTO> visits, String strategy) {
-        List<EmbeddedVisitDTO> filteredVisits = visits.stream()
+    public List<EmbeddedVisitDTO> getSortedVisitsByAlgorithm(Long waitingRoomId, String strategy) {
+        List<EmbeddedVisitDTO> visits = visitRepo.findByWaitingRoomId(waitingRoomId).stream()
+                .map(visitMapper::toEmbeddedDto)
                 .filter(visit -> visit.getStatus() == Status.WAITING)
                 .toList();
 
-        List<EmbeddedVisitDTO> sortedVisits = switch (strategy.toUpperCase()) {
-            case "FIFO" -> filteredVisits.stream()
+        return switch (strategy.toUpperCase()) {
+            case "FIFO" -> visits.stream()
                     .sorted(Comparator.comparing(EmbeddedVisitDTO::getArrivalTime))
                     .collect(Collectors.toList());
-            case "PRIORITY" -> filteredVisits.stream()
+            case "PRIORITY" -> visits.stream()
                     .sorted((v1, v2) -> Integer.compare(v2.getPriority(), v1.getPriority()))
                     .collect(Collectors.toList());
-            case "SJF" -> filteredVisits.stream()
+            case "SJF" -> visits.stream()
                     .sorted(Comparator.comparing(EmbeddedVisitDTO::getEstimatedProcessingTime))
                     .collect(Collectors.toList());
             default -> throw new IllegalArgumentException("Invalid sorting strategy: " + strategy);
         };
-
-        return sortedVisits;
     }
 
 }

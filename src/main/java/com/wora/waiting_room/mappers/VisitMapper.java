@@ -1,5 +1,6 @@
 package com.wora.waiting_room.mappers;
 
+import com.wora.waiting_room.dtos.VisitDTO.EmbeddedVisitDTO;
 import com.wora.waiting_room.dtos.VisitDTO.VisitCreateDTO;
 import com.wora.waiting_room.dtos.VisitDTO.VisitDTO;
 import com.wora.waiting_room.dtos.VisitDTO.VisitUpdateDTO;
@@ -12,4 +13,5 @@ public interface VisitMapper{
     Visit toEntity(VisitUpdateDTO dto);
     Visit toEntity(VisitCreateDTO dto);
     VisitDTO toDto(Visit visit);
+    EmbeddedVisitDTO toEmbeddedDto(VisitDTO visitDTO);
 }

@@ -16,6 +16,7 @@ import com.wora.waiting_room.repositories.VisitRepo;
 import com.wora.waiting_room.repositories.VisitorRepo;
 import com.wora.waiting_room.repositories.WaitingRoomRepo;
 import com.wora.waiting_room.services.servicesIntr.VisitService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +67,7 @@ public class VisitServiceImpl implements VisitService {
             return visitMapper.toDto(visit);
         }
 
-        throw new ResourceNotFoundException("Visit not found");
+        throw new EntityNotFoundException("Visit not found");
     }
 
     public VisitDTO finishVisit(VisitDTO visitDTO) {
@@ -82,7 +83,7 @@ public class VisitServiceImpl implements VisitService {
             return visitMapper.toDto(visit);
         }
 
-        throw new ResourceNotFoundException("Visit not found");
+        throw new EntityNotFoundException("Visit not found");
     }
 
     public VisitDTO cancelVisit(VisitDTO visitDTO) {
@@ -97,13 +98,17 @@ public class VisitServiceImpl implements VisitService {
             return visitMapper.toDto(visit);
         }
 
-        throw new ResourceNotFoundException("Visit not found");
+        throw new EntityNotFoundException("Visit not found");
     }
 
     @Override
     public VisitDTO findById(VisitEmbeddedId id) {
         Visit visit = visitRepository.findById(id).orElse(null);
         return visitMapper.toDto(visit);
+    }
+
+    public List<VisitDTO> findByWaitingRoomId(Long id) {
+        return visitRepository.findByWaitingRoomId(id);
     }
 
     @Override

@@ -16,5 +16,7 @@ spring:
 
     visit:
       default-visitor-status: WAITING
+      default-priority: 100
+      default-estimatedProcessingTime: 10m
   profiles:
     active: dev
