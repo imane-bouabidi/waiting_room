@@ -1,5 +1,6 @@
 package com.wora.waiting_room.dtos.VisitDTO;
 
+import com.wora.waiting_room.dtos.VisitorDTO.EmbeddedVisitorDTO;
 import com.wora.waiting_room.dtos.WaitingRoomDTO.EmbeddedWaitingRoomDTO;
 import com.wora.waiting_room.entities.embedded.VisitEmbeddedId;
 import com.wora.waiting_room.entities.enums.Status;
@@ -26,6 +27,6 @@ public class VisitDTO {
     private Duration estimatedProcessingTime;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private EmbeddedVisitDTO embeddedVisitDTO;
+    private EmbeddedVisitorDTO embeddedVisitorDTO;
     private EmbeddedWaitingRoomDTO embeddedWaitingRoomDTO;
 }

@@ -59,7 +59,7 @@ public class WaitingRoomController {
     @GetMapping("/{waitingRoomId}/sorted")
     public ResponseEntity<List<EmbeddedVisitDTO>> getSortedVisitsByAlgorithm(
             @PathVariable Long waitingRoomId,
-            @RequestParam AlgorithmType strategy) {
+            @RequestParam("strategy") AlgorithmType strategy) {
 
         List<EmbeddedVisitDTO> sortedVisits = waitingRoomService.getSortedVisitsByAlgorithm(waitingRoomId, strategy);
 

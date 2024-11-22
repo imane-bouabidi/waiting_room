@@ -17,23 +17,6 @@ public class VisitController {
 
     private final VisitServiceImpl visitService;
 
-//    @GetMapping("/sorted")
-//    public ResponseEntity<Page<VisitDTO>> getSortedVisits(
-//            @RequestParam String strategy,
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size) {
-//
-//        if (!isValidStrategy(strategy)) {
-//            return ResponseEntity.badRequest().body(null);
-//        }
-//
-//        Pageable pageable = PageRequest.of(page, size);
-//
-//        Page<VisitDTO> visitsPage = visitService.getSortedVisitsWithPagination(strategy, pageable);
-//
-//        return ResponseEntity.ok(visitsPage);
-//    }
-
 
     @PostMapping
     public ResponseEntity<VisitDTO> createVisit(@RequestBody @Valid VisitCreateDTO visitCreateDTO) {

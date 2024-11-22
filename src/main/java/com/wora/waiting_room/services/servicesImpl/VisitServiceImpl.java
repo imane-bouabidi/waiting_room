@@ -41,10 +41,10 @@ public class VisitServiceImpl implements VisitService {
     @Override
     public VisitDTO save(VisitCreateDTO visitDTO) {
 
-        WaitingRoom waitingRoom = waitingRoomRepo.findById(visitDTO.getEmbeddedWaitingRoomDTO().getId()).orElse(null);
-        Visitor visitor = visitorRepo.findById(visitDTO.getEmbeddedVisitorDTO().getId()).orElse(null);
+        WaitingRoom waitingRoom = waitingRoomRepo.findById(visitDTO.getWaitingRoomId()).orElseThrow(() -> new EntityNotFoundException("Visitor not found"));;
+        Visitor visitor = visitorRepo.findById(visitDTO.getVisitorId()).orElseThrow(() -> new EntityNotFoundException("waiting room not found"));;
         Visit visit = visitMapper.toEntity(visitDTO);
-        VisitEmbeddedId id = new VisitEmbeddedId(visitDTO.getEmbeddedVisitorDTO().getId(), visitDTO.getEmbeddedWaitingRoomDTO().getId());
+        VisitEmbeddedId id = new VisitEmbeddedId(visitDTO.getVisitorId(), visitDTO.getWaitingRoomId());
         visit.setId(id);
         visit.setVisitor(visitor);
         visit.setWaitingRoom(waitingRoom);
@@ -109,7 +109,7 @@ public class VisitServiceImpl implements VisitService {
         return visitMapper.toDto(visit);
     }
 
-    public List<VisitDTO> findByWaitingRoomId(Long id) {
+    public List<Visit> findByWaitingRoomId(Long id) {
         return visitRepository.findByWaitingRoomId(id);
     }
 

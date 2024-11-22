@@ -1,5 +1,6 @@
 package com.wora.waiting_room.dtos.VisitDTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wora.waiting_room.dtos.VisitorDTO.EmbeddedVisitorDTO;
 import com.wora.waiting_room.dtos.WaitingRoomDTO.EmbeddedWaitingRoomDTO;
 import com.wora.waiting_room.entities.enums.Status;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class VisitCreateDTO {
     @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime arrivalTime;
     @NotNull
     private Status status;
@@ -23,8 +25,8 @@ public class VisitCreateDTO {
     private Duration estimatedProcessingTime;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private EmbeddedVisitorDTO embeddedVisitorDTO;
-    private EmbeddedWaitingRoomDTO embeddedWaitingRoomDTO;
+    private Long visitorId;
+    private Long waitingRoomId;
 
 
 }

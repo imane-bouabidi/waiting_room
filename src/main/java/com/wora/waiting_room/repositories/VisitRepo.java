@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface VisitRepo extends JpaRepository<Visit, VisitEmbeddedId> {
-    List<VisitDTO> findByWaitingRoomId(Long waitingRoomId);
+    List<Visit> findByWaitingRoomId(Long waitingRoomId);
 
 }
