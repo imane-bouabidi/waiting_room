@@ -9,10 +9,10 @@ import com.wora.waiting_room.services.GenericService;
 import java.util.List;
 
 public interface VisitService extends GenericService<VisitCreateDTO, VisitUpdateDTO, VisitDTO, VisitEmbeddedId> {
-    VisitDTO save(VisitCreateDTO createDto);
-    VisitDTO findById(VisitEmbeddedId id);
-    VisitDTO update(VisitUpdateDTO updateDto, VisitEmbeddedId id);
+//    VisitDTO save(VisitCreateDTO createDto);
+//    VisitDTO findById(VisitEmbeddedId id);
+//    VisitDTO update(VisitUpdateDTO updateDto, VisitEmbeddedId id);
     List<VisitDTO> findAll(int page, int size);
-    void delete(VisitEmbeddedId id);
+//    void delete(VisitEmbeddedId id);
 }
 

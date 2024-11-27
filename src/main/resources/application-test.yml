@@ -1,27 +1,27 @@
-#spring:
-#  profiles:
-#    active: test
-#  datasource:
-#    url: jdbc:h2:mem:testdb
-#    driver-class-name: org.h2.Driver
-#    username: sa
-#    password: password
-#  jpa:
-#    hibernate:
-#      ddl-auto: create-drop
-#    show-sql: true
-#
-#
-#server:
-#  servlet:
-#    context-path: /waiting_room
-#
-#waiting-room:
-#  default-algorithm-type: FIFO
-#  default-work-mode: MORNING
-#  default-capacity: 15
-#
-#visit:
-#  default-visitor-status: WAITING
-#  default-priority: 100
-#  default-estimated-processing-time: 10m
+spring:
+  profiles:
+    active: test
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+
+server:
+  servlet:
+    context-path: /waiting_room
+
+waiting-room:
+  default-algorithm-type: FIFO
+  default-work-mode: MORNING
+  default-capacity: 15
+
+visit:
+  default-visitor-status: WAITING
+  default-priority: 100
+  default-estimated-processing-time: 10m
