@@ -26,7 +26,7 @@ public class Visit {
     private Status status;
 
     @Min(value = 1, message = "Priority must be at least 1")
-    private byte priority;
+    private Byte priority;
 
     @Min(value = 1, message = "Estimated processing time must be positive")
     private Duration estimatedProcessingTime;

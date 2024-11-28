@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 
 @Getter
 @Setter
@@ -18,7 +20,7 @@ import lombok.Setter;
 public class WaitingRoomCreateDTO {
     @NotNull
     @Positive
-    private Integer date;
+    private LocalDate date;
     private AlgorithmType algorithmType;
     @Positive
     private Integer Capacity;

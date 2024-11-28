@@ -17,12 +17,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VisitUpdateDTO {
-    private VisitEmbeddedId id;
     @NotNull
     private LocalDateTime arrivalTime;
     @NotNull
     private Status status;
-    private byte priority;
+    private Byte priority;
     private Duration estimatedProcessingTime;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

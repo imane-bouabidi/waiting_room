@@ -2,6 +2,7 @@ package com.wora.waiting_room.services.servicesImpl;
 
 
 import com.wora.waiting_room.config.VisitProperties;
+import com.wora.waiting_room.dtos.VisitDTO.EmbeddedVisitDTO;
 import com.wora.waiting_room.dtos.VisitDTO.VisitCreateDTO;
 import com.wora.waiting_room.dtos.VisitDTO.VisitDTO;
 import com.wora.waiting_room.dtos.VisitDTO.VisitUpdateDTO;
@@ -11,12 +12,12 @@ import com.wora.waiting_room.entities.Visitor;
 import com.wora.waiting_room.entities.WaitingRoom;
 import com.wora.waiting_room.entities.embedded.VisitEmbeddedId;
 import com.wora.waiting_room.entities.enums.Status;
+import com.wora.waiting_room.exceptions.EntityNotFoundException;
 import com.wora.waiting_room.mappers.VisitMapper;
 import com.wora.waiting_room.repositories.VisitRepo;
 import com.wora.waiting_room.repositories.VisitorRepo;
 import com.wora.waiting_room.repositories.WaitingRoomRepo;
 import com.wora.waiting_room.services.servicesIntr.VisitService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -49,15 +50,22 @@ public class VisitServiceImpl implements VisitService {
         visit.setVisitor(visitor);
         visit.setWaitingRoom(waitingRoom);
         visit.setArrivalTime(visitDTO.getArrivalTime());
+        if(visitDTO.getPriority() == null){
         visit.setPriority(visitProperties.getDefaultPriority());
+        }
+        if(visitDTO.getEstimatedProcessingTime() == null){
         visit.setEstimatedProcessingTime(visitProperties.getDefaultEstimatedTime());
+        }
+        if(visitDTO.getStatus() == null){
         visit.setStatus(visitProperties.getDefaultVisitorStatus());
+        }
         Visit savedVisit = visitRepository.save(visit);
         return visitMapper.toDto(savedVisit);
     }
 
-    public VisitDTO inProgress(VisitDTO visitDTO) {
-        Optional<Visit> visitOptional = visitRepository.findById(visitDTO.getId());
+    public VisitDTO inProgress(Long visitorId,Long waitingRoomId) {
+        VisitEmbeddedId id = new VisitEmbeddedId(visitorId, waitingRoomId);
+        Optional<Visit> visitOptional = visitRepository.findById(id);
         if (visitOptional.isPresent()) {
             Visit visit = visitOptional.get();
 
@@ -72,8 +80,9 @@ public class VisitServiceImpl implements VisitService {
         throw new EntityNotFoundException("Visit not found");
     }
 
-    public VisitDTO finishVisit(VisitDTO visitDTO) {
-        Optional<Visit> visitOptional = visitRepository.findById(visitDTO.getId());
+    public VisitDTO finishVisit(Long visitorId,Long waitingRoomId) {
+        VisitEmbeddedId id = new VisitEmbeddedId(visitorId, waitingRoomId);
+        Optional<Visit> visitOptional = visitRepository.findById(id);
         if (visitOptional.isPresent()) {
             Visit visit = visitOptional.get();
 
@@ -88,8 +97,9 @@ public class VisitServiceImpl implements VisitService {
         throw new EntityNotFoundException("Visit not found");
     }
 
-    public VisitDTO cancelVisit(VisitDTO visitDTO) {
-        Optional<Visit> visitOptional = visitRepository.findById(visitDTO.getId());
+    public VisitDTO cancelVisit(Long visitorId,Long waitingRoomId) {
+        VisitEmbeddedId id = new VisitEmbeddedId(visitorId, waitingRoomId);
+        Optional<Visit> visitOptional = visitRepository.findById(id);
         if (visitOptional.isPresent()) {
             Visit visit = visitOptional.get();
 
@@ -115,9 +125,31 @@ public class VisitServiceImpl implements VisitService {
 
     @Override
     public VisitDTO update(VisitUpdateDTO updateDto, VisitEmbeddedId id) {
-        Visit visit = visitRepository.findById(id).orElse(null);
+        Visit visit = visitRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Visit not found") );
         if (visit != null) {
-            visitMapper.toEntity(updateDto);
+            if (updateDto.getArrivalTime() != null) {
+                visit.setArrivalTime(updateDto.getArrivalTime());
+            }
+            if (updateDto.getStartTime() != null) {
+                visit.setStartTime(updateDto.getStartTime());
+            }
+            if (updateDto.getPriority() != null) {
+                visit.setPriority(updateDto.getPriority());
+            }
+            if (updateDto.getStatus() != null) {
+                if (updateDto.getStartTime() != null) {
+                    visit.setStatus(Status.IN_PROGRESS);
+                }
+                else if (updateDto.getEndTime() != null) {
+                    visit.setStatus(Status.FINISHED);
+                }else visit.setStatus(updateDto.getStatus());
+            }
+            if (updateDto.getEndTime() != null) {
+                visit.setEndTime(updateDto.getEndTime());
+            }
+            if (updateDto.getEstimatedProcessingTime() != null) {
+                visit.setEstimatedProcessingTime(updateDto.getEstimatedProcessingTime());
+            }
             visit = visitRepository.save(visit);
         }
         return visitMapper.toDto(visit);
@@ -140,7 +172,7 @@ public class VisitServiceImpl implements VisitService {
         List<Visit> visits = visitRepository.findAll().stream()
                 .filter(visit -> visit.getStatus() == Status.FINISHED)
                 .toList();
-        System.out.println(visits);
+//        System.out.println(visits);
 
         Duration totalWaitTime = visits.stream()
                 .filter(visit -> visit.getArrivalTime() != null && visit.getStartTime() != null)

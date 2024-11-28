@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,7 @@ public class WaitingRoom {
     @NotNull
     @Positive
     @Column(name = "date", nullable = false)
-    private Integer date;
+    private LocalDate date;
 
     @Column(name = "algorithm_type", nullable = true)
     @Enumerated(EnumType.STRING)

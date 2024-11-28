@@ -5,6 +5,8 @@ import com.wora.waiting_room.entities.enums.AlgorithmType;
 import com.wora.waiting_room.entities.enums.WorkMode;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +22,7 @@ public class WaitingRoomDTO {
     private Long id;
     @NotNull
     @Positive
-    private Integer date;
+    private LocalDate date;
     private AlgorithmType algorithmType;
     @Positive
     private Integer Capacity;

@@ -38,9 +38,6 @@ public class WaitingRoomController {
     @PutMapping("/{id}")
     public ResponseEntity<WaitingRoomDTO> updateWaitingRoom(@RequestBody @Valid WaitingRoomUpdateDTO updateDto, @PathVariable Long id) {
         WaitingRoomDTO updatedWaitingRoom = waitingRoomService.update(updateDto, id);
-        if (updatedWaitingRoom == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(updatedWaitingRoom);
     }
 
@@ -58,10 +55,9 @@ public class WaitingRoomController {
 
     @GetMapping("/{waitingRoomId}/sorted")
     public ResponseEntity<List<EmbeddedVisitDTO>> getSortedVisitsByAlgorithm(
-            @PathVariable Long waitingRoomId,
-            @RequestParam("strategy") AlgorithmType strategy) {
+            @PathVariable Long waitingRoomId) {
 
-        List<EmbeddedVisitDTO> sortedVisits = waitingRoomService.getSortedVisitsByAlgorithm(waitingRoomId, strategy);
+        List<EmbeddedVisitDTO> sortedVisits = waitingRoomService.getSortedVisitsByAlgorithm(waitingRoomId);
 
         if (sortedVisits.isEmpty()) {
             return ResponseEntity.noContent().build();
