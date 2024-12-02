@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VisitControllerIntegrationTest {
 
@@ -32,20 +34,20 @@ class VisitControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-//    @Test
-//    void testCreateVisit() throws Exception {
-//        VisitCreateDTO visitCreateDTO = new VisitCreateDTO();
-//        visitCreateDTO.setVisitorId(1L);
-//        visitCreateDTO.setWaitingRoomId(2L);
-//        visitCreateDTO.setArrivalTime(LocalDateTime.now());
-//
-//        mockMvc.perform(post("/waiting_room/api/visits")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(visitCreateDTO)))
-//                .andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.visitorId").value(1L))
-//                .andExpect(jsonPath("$.waitingRoomId").value(2L));
-//    }
+    @Test
+    void testCreateVisit() throws Exception {
+        VisitCreateDTO visitCreateDTO = new VisitCreateDTO();
+        visitCreateDTO.setVisitorId(1L);
+        visitCreateDTO.setWaitingRoomId(2L);
+        visitCreateDTO.setArrivalTime(LocalDateTime.now());
+
+        mockMvc.perform(post("/waiting_room/api/visits")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(visitCreateDTO)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.visitorId").value(1L))
+                .andExpect(jsonPath("$.waitingRoomId").value(2L));
+    }
 
 
 }
